@@ -12,6 +12,7 @@ import org.potados.todo.data.TodoRepository
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+    private val todoAdapter = TodoRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +28,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        val adapter = TodoRecyclerAdapter()
-        todo_list.adapter = adapter
-        todo_list.layoutManager = LinearLayoutManager(this)
+        with(todo_list) {
+            adapter = todoAdapter
 
-        viewModel.allTodo.observe(this) {
-            Log.d("MainActivity", "Got all todo")
-            adapter.items = it
+            viewModel.allTodo.observe(this@MainActivity) {
+                todoAdapter.items = it
+            }
         }
+
     }
 }
