@@ -21,4 +21,8 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    fun toggleDone(todo: TodoItem, isDone: Boolean) {
+        todoRepo.updateTodo(todo.copy(isDone = isDone))
+    }
+
 }

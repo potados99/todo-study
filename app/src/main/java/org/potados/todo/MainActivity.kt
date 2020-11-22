@@ -3,18 +3,12 @@ package org.potados.todo
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Debug
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.iterator
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
-import org.potados.todo.data.TodoRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,12 +62,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.addTodo(thingToDo)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.addDummyData()
-    }
-
     private fun initView() {
         with(todo_list) {
             adapter = todoAdapter
@@ -81,6 +69,10 @@ class MainActivity : AppCompatActivity() {
             viewModel.allTodo.observe(this@MainActivity) {
                 todoAdapter.items = it
             }
+        }
+
+        with(todoAdapter) {
+            onToggleDone = viewModel::toggleDone
         }
 
     }

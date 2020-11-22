@@ -14,10 +14,20 @@ class TodoRepository {
     fun getAllTodo() = todoDao.getAllTodo()
 
     fun addTodo(todo: TodoItem) {
-        Thread {
-            Log.d("Another thread", Thread.currentThread().name)
+        doOnBackgroundThread {
             todoDao.insertTodo(todo)
-        }.start()
+        }
     }
 
+    fun updateTodo(todo: TodoItem) {
+        doOnBackgroundThread {
+            todoDao.updateTodo(todo)
+        }
+    }
+
+    private fun doOnBackgroundThread(action: () -> Unit) {
+        Thread {
+            action()
+        }.start()
+    }
 }
