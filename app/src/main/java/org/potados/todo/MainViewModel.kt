@@ -15,4 +15,10 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    fun addTodo(thingToDo: String) {
+        todoRepo.addTodo(
+            TodoItem(thingToDo = thingToDo, isDone = false)
+        )
+    }
+
 }
