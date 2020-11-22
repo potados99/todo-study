@@ -4,15 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Debug
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.potados.todo.data.TodoRepository
 
 class MainActivity : AppCompatActivity() {
 
-    private val todoRepo: TodoRepository by lazy {
-        TodoRepository(this)
-    }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        todoRepo.addTodo(
-            TodoItem("aaaadadada", false)
-        )
+        viewModel.addDummyData()
     }
 
     private fun initView() {
@@ -34,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         todo_list.adapter = adapter
         todo_list.layoutManager = LinearLayoutManager(this)
 
-        todoRepo.getAllTodo().observe(this) {
+        viewModel.allTodo.observe(this) {
             Log.d("MainActivity", "Got all todo")
             adapter.items = it
         }
