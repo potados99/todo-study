@@ -9,12 +9,6 @@ class MainViewModel : ViewModel() {
 
     val allTodo = todoRepo.getAllTodo()
 
-    fun addDummyData() {
-        todoRepo.addTodo(
-            TodoItem("aaaadadada", false)
-        )
-    }
-
     fun addTodo(thingToDo: String) {
         todoRepo.addTodo(
             TodoItem(thingToDo = thingToDo, isDone = false)
