@@ -9,11 +9,14 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.awaitAll
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val todoAdapter = TodoRecyclerAdapter()
+    private val todoAdapter = TodoRecyclerAdapter().apply {
+        setHasStableIds(true)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         with(todoAdapter) {
             // 각 할 일들의 체크박스가 눌리면 ViewModel의 toggleDone을 호출.
             onToggleDone = viewModel::toggleDone
+            onLongPress = viewModel::deleteTodo
         }
-
     }
 }

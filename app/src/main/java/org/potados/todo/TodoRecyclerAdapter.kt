@@ -12,17 +12,19 @@ class TodoRecyclerAdapter : RecyclerView.Adapter<TodoRecyclerAdapter.TodoViewHol
     // 어댑터가 표시할 요소들(할 일들).
     var items: List<TodoItem> = listOf()
         set(value) {
-            val wasEmpty = field.isEmpty()
             field = value
-
-            if (wasEmpty) {
-                Log.d("TodoRecycler", "Force update recyclerview!")
-                notifyDataSetChanged()
-            }
+            notifyDataSetChanged()
         }
 
     // 할 일 체크박스가 눌렸을 때에 호출될 함수.
     var onToggleDone: (TodoItem, Boolean) -> Unit = { _, _ ->}
+
+    // 할 일이 길게 눌렸을 때 호출될 함수.
+    var onLongPress: (TodoItem) -> Unit = {}
+
+    override fun getItemId(position: Int): Long {
+        return items[position].id!!.toLong()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         // 뷰 생성
@@ -61,6 +63,13 @@ class TodoRecyclerAdapter : RecyclerView.Adapter<TodoRecyclerAdapter.TodoViewHol
 
                 // onToggleDone 함수를 호출해줌.
                 onToggleDone(item, isChecked)
+            }
+
+            // 아이템이 길게 눌릴 때마다
+            view.root.setOnLongClickListener {
+                // onLongPress 함수를 호출해줌.
+                onLongPress(item)
+                true
             }
         }
     }

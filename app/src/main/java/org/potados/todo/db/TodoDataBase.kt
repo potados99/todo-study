@@ -20,7 +20,10 @@ abstract class TodoDataBase : RoomDatabase() {
         private fun createInstance(context: Context) =
                 Room.databaseBuilder(
                         context,
-                        TodoDataBase::class.java, "todo-database"
-                ).build()
+                        TodoDataBase::class.java,
+                        "todo-database"
+                ).build().apply {
+                    instance = this
+                }
     }
 }

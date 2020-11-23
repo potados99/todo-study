@@ -26,6 +26,12 @@ class TodoRepository {
         }
     }
 
+    fun deleteTodo(todo: TodoItem) {
+        launchOnBackground {
+            todoDao.deleteTodo(todo)
+        }
+    }
+
     private fun launchOnBackground(action: () -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             action()

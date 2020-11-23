@@ -19,4 +19,8 @@ class MainViewModel : ViewModel() {
         todoRepo.updateTodo(todo.copy(isDone = isDone))
     }
 
+    fun deleteTodo(todo: TodoItem) {
+        todoRepo.deleteTodo(todo)
+    }
+
 }
